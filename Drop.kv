@@ -1,0 +1,23 @@
+<CustomDropDown>
+
+    Button:
+        id: Button
+        text: 'Press'
+        on_release: dropdown.open(self)
+        size_hint_y: None
+        height: '50dp'
+    
+    DropDown:
+        id: dropdown
+        Button:
+            background_color: 1, 0, 1, 1
+            text: 'First Item'
+            size_hint_y: None
+            height: '50dp'
+
+        Button:
+            background_color: 1, 0, 1, 1
+            text: 'second Item'
+            size_hint_y: None
+            height: '50dp'
+        
