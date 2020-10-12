@@ -1,45 +1,15 @@
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.dropdown import DropDown
-from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
-from kivymd.uix.button import MDRectangleFlatButton
-from kivymd.uix.button import MDRoundFlatButton
-from kivymd.uix.label import MDLabel
-from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDIconButton
-from kivymd.uix.button import MDFloatingActionButton
-from kivy.core.window import Window
 import speech_recognition as sr
-from kivy.uix.dropdown import DropDown
-from kivy.uix.label import Label
-from kivymd.uix.list import OneLineAvatarListItem
-from kivymd.uix.menu import MDDropdownMenu, RightContent
-from kivymd.theming import ThemableBehavior
-from kivymd.uix.behaviors import RectangularElevationBehavior
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.properties import StringProperty
-from kivymd.uix.menu import MDDropdownMenu
-from googletrans import Translator
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.list import OneLineAvatarListItem
 from kivymd.uix.list import OneLineAvatarIconListItem
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.snackbar import Snackbar
-from kivymd.uix.list import OneLineListItem
-from kivy.metrics import dp
-from kivymd.uix.datatables import MDDataTable
-
-# -*- coding: utf-8 -*-
 from googletrans import Translator
 from kivy.config import Config
-
 Config.set('graphics', 'width', '330')
 Config.set('graphics', 'height', '560')
-
 screen_helper = """
 ScreenManager:
     Screen01:
@@ -64,7 +34,7 @@ ScreenManager:
         pos_hint: {'center_x':0.3,'center_y':0.47}
         on_press: root.manager.current = 'rec'   
     MDRectangleFlatButton
-        text:"history"
+        text:"History"
         theme_text_color:"Custom"
         text_color: 0, 1, 1, 1
         pos_hint: {'center_x':0.7,'center_y':0.47}
@@ -185,8 +155,10 @@ ScreenManager:
 
     MDRectangleFlatButton
         text: "Show"
-        pos_hint: {'center_x':0.5,'center_y':0.15}
-        on_release : root.show_his()
+        theme_text_color:"Custom"
+        text_color:(255 / 255, 255 / 255, 255 / 255)
+        pos_hint: {'center_x':0.5,'center_y':0.1}
+        on_release : root.on_start()
 
 
     Label
@@ -194,17 +166,10 @@ ScreenManager:
         text:''
         halign:'center'
         font_name:"arial-unicode-ms.otf"
-        pos_hint:{'center_x': 0.5, 'center_y': 0.7}
+        pos_hint:{'center_x': 0.5, 'center_y': 0.53}
         text_size: root.width,None
         size: self.texture_size
-    Label
-        id : histext02
-        text:''
-        halign:'center'
-        font_name:"arial-unicode-ms.otf"
-        pos_hint:{'center_x': 0.7, 'center_y': 0.8}
-        text_size: root.width,None
-        size: self.texture_size
+
 
 """
 
@@ -224,11 +189,6 @@ class Screen02(Screen):
     global lan2
     lan1 = ""
     lan2 = ""
-    global his_text
-    his_text = []
-    global his_tran
-    his_tran = []
-
     def __init__(self, **kwargs):
         super(Screen02, self).__init__(**kwargs)
 
@@ -260,24 +220,59 @@ class Screen02(Screen):
                     result = translator.translate(word, src=src, dest=dest)
                     result = result.text
                     self.ids.youtrantext.text = result
-                    num = num + 1
-                    print(num)
-                    his_text.append(word)
-                    his_tran.append(result)
-                    his_all.append(word)
-                    his_all.append(result)
-                    # his_all[str(word)] = str(result)
-                    # his_text[num] = str(word)
-                    # his_tran[num] = str(result)
+                    if num > 10:
+                        if num % 10 == 1:
+                            his_all[0] = word
+                            his_all[1] = result
+                            num = num + 1
+                        elif num % 10 == 2:
+                            his_all[2] = word
+                            his_all[3] = result
+                            num = num + 1
+                        elif num % 10 == 3:
+                            his_all[4] = word
+                            his_all[5] = result
+                            num = num + 1
+                        elif num % 10 == 4:
+                            his_all[6] = word
+                            his_all[7] = result
+                            num = num + 1
+                        elif num % 10 == 5:
+                            his_all[8] = word
+                            his_all[9] = result
+                            num = num + 1
+                        elif num % 10 == 6:
+                            his_all[10] = word
+                            his_all[11] = result
+                            num = num + 1
+                        elif num % 10 == 7:
+                            his_all[12] = word
+                            his_all[13] = result
+                            num = num + 1
+                        elif num % 10 == 8:
+                            his_all[14] = word
+                            his_all[15] = result
+                            num = num + 1
+                        elif num % 10 == 9:
+                            his_all[16] = word
+                            his_all[17] = result
+                            num = num + 1
+                        elif num % 10 == 0:
+                            his_all[18] = word
+                            his_all[19] = result
+                            num = num + 1
+                    elif num > 20:
+                        num = 10
+                    else:
+                        num = num + 1
+                        print(num)
+                        his_all.append(word)
+                        his_all.append(result)
             except sr.UnknownValueError:
                 self.ids.youtext.text = ("Error")
             except sr.RequestError as e:
                 self.ids.youtext.text = ("Error".format(e))
-
             print(his_all)
-            print(his_text)
-            print(his_tran)
-
     def translate(self):
         if lan1 == "":
             self.ids.youtrantext.text = "No word to Translate"
@@ -504,6 +499,7 @@ class IItemConfirm(OneLineAvatarIconListItem):
 
 class Screen03(Screen):
     dialog = None
+    global his_all
 
     def __init__(self, **kwargs):
         super(Screen03, self).__init__(**kwargs)
@@ -511,8 +507,122 @@ class Screen03(Screen):
     def closeDialog(self, inst):
         self.dialog.dismiss()
 
-    def show_his(self):
-        pass
+    def hisshow01(self, *a3):
+        global his_all
+        if len(his_all) == 0:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[0]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[1]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow02(self, *a3):
+        global his_all
+        if len(his_all) <= 2:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[2]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[3]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow03(self, *a3):
+        global his_all
+        if len(his_all) <= 4:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[4]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[5]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow04(self, *a3):
+        global his_all
+        if len(his_all) <= 6:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[6]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[7]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow05(self, *a3):
+        global his_all
+        if len(his_all) <= 8:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[8]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[9]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow06(self, *a3):
+        global his_all
+        if len(his_all) <= 10:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[10]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[11]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow07(self, *a3):
+        global his_all
+        if len(his_all) <= 12:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[12]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[13]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow08(self, *a3):
+        global his_all
+        if len(his_all) <= 14:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[14]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[15]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow09(self, *a3):
+        global his_all
+        if len(his_all) <= 16:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[16]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[17]))
+            self.ids.histext01.text = (ty)
+
+    def hisshow010(self, *a3):
+        global his_all
+        if len(his_all) <= 18:
+            self.ids.histext01.text = "No History"
+        else:
+            ty = ("You word" + "\n" + (his_all[18]) + "\n" + "-----------------------------------------------------"
+                  + "\n" + "You Translate" + "\n" + (his_all[19]))
+            self.ids.histext01.text = (ty)
+
+    def on_start(self):
+        self.dialog = MDDialog(
+            size_hint=(0.9, 1),
+            title="History",
+            type="confirmation",
+            items=[
+                IItemConfirm(text="01", on_press=self.hisshow01),
+                IItemConfirm(text="02", on_press=self.hisshow02),
+                IItemConfirm(text="03", on_press=self.hisshow03),
+                IItemConfirm(text="04", on_press=self.hisshow04),
+                IItemConfirm(text="05", on_press=self.hisshow05),
+                IItemConfirm(text="06", on_press=self.hisshow06),
+                IItemConfirm(text="07", on_press=self.hisshow07),
+                IItemConfirm(text="08", on_press=self.hisshow08),
+                IItemConfirm(text="09", on_press=self.hisshow09),
+                IItemConfirm(text="10", on_press=self.hisshow010),
+                IItemConfirm(text=" "),
+            ],
+            buttons=[
+                MDFlatButton(text="Back", on_release=self.closeDialog),
+            ],
+        )
+        self.dialog.open()
+
+    pass
+
 
 sm = ScreenManager()
 sm.add_widget(Screen01(name='main'))
@@ -520,7 +630,7 @@ sm.add_widget(Screen02(name='rec'))
 sm.add_widget(Screen03(name='history'))
 
 
-class MainApp(MDApp):
+class Speech_to_TextApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Amber"
         self.theme_cls.theme_style = "Dark"
@@ -529,4 +639,4 @@ class MainApp(MDApp):
 
 
 if __name__ == '__main__':
-    MainApp().run()
+    Speech_to_TextApp().run()
